@@ -4,7 +4,7 @@ This plugin allows to update a Kubernetes deployment.
 
 ## Usage  
 
-This pipeline will update the `my-deployment` deployment with the image tagged `DRONE_COMMIT_SHA:8`
+This pipeline will update the `my-deployment` deployment with the image tagged `DRONE_COMMIT_SHA:0:8`
 
     pipeline:
         deploy:
@@ -12,7 +12,7 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             deployment: my-deployment
             repo: myorg/myrepo
             container: my-container
-            tag: ${DRONE_COMMIT_SHA:8}
+            tag: ${DRONE_COMMIT_SHA:0:8}
 
 Deploying containers across several deployments, eg in a scheduler-worker setup. Make sure your container `name` in your manifest is the same for each pod.
     
@@ -22,7 +22,7 @@ Deploying containers across several deployments, eg in a scheduler-worker setup.
             deployment: [server-deploy, worker-deploy]
             repo: myorg/myrepo
             container: my-container
-            tag: ${DRONE_COMMIT_SHA:8}
+            tag: ${DRONE_COMMIT_SHA:0:8}
 
 Deploying multiple containers within the same deployment.
 
@@ -32,7 +32,7 @@ Deploying multiple containers within the same deployment.
             deployment: my-deployment
             repo: myorg/myrepo
             container: [container1, container2]
-            tag: ${DRONE_COMMIT_SHA:8}
+            tag: ${DRONE_COMMIT_SHA:0:8}
 
 **NOTE**: Combining multi container deployments across multiple deployments is not recommended
 
@@ -48,7 +48,7 @@ This more complex example demonstrates how to deploy to several environments bas
             repo: myorg/myrepo
             container: my-container
             namespace: app
-            tag: ${DRONE_COMMIT_SHA:8}
+            tag: ${DRONE_COMMIT_SHA:0:8}
             when:
                 branch: [ staging ]
 
@@ -61,7 +61,7 @@ This more complex example demonstrates how to deploy to several environments bas
             repo: myorg/myrepo
             container: my-container
             namespace: app
-            tag: ${DRONE_COMMIT_SHA:8}
+            tag: ${DRONE_COMMIT_SHA:0:8}
             when:
                 branch: [ master ]
 
