@@ -99,6 +99,24 @@ This more complex example demonstrates how to deploy to several environments bas
 When using TLS Verification, ensure Server Certificate used by kubernetes API server 
 is signed for SERVER url ( could be a reason for failures if using aliases of kubernetes cluster )
 
+## How to get token
+1. After deployment inspect you pod for name of (k8s) secret with **token** and **ca.crt**
+```bash
+kubectl describe po/[ your pod name ] | grep SecretName | grep token
+```
+(When you use **default service account**)
+
+2. Get data from you (k8s) secret
+```bash
+kubectl get secret [ your default secret name ] -o yaml | egrep 'ca.crt:|token:'
+```
+3. Copy-paste contents of ca.crt into your drone's **KUBERNETES_CERT** secret
+4. Decode base64 encoded token
+```bash
+echo [ your k8s base64 encoded token ] | base64 -d && echo''
+```
+5. Copy-paste decoded token into your drone's **KUBERNETES_TOKEN** secret
+
 ## To do 
 
 Replace the current kubectl bash script with a go implementation.
