@@ -117,6 +117,60 @@ echo [ your k8s base64 encoded token ] | base64 -d && echo''
 ```
 5. Copy-paste decoded token into your drone's **KUBERNETES_TOKEN** secret
 
+### RBAC
+
+When using a version of kubernetes with RBAC (role-based access control)
+enabled, you will not be able to use the default service account, since it does
+not have access to update deployments.  Instead, you will need to create a
+custom service account with the appropriate permissions (`Role` and `RoleBinding`, or `ClusterRole` and `ClusterRoleBinding` if you need access across namespaces using the same service account).
+
+As an example (for the `web` namespace):
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: drone-deploy
+  namespace: web
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: drone-deploy
+  namespace: web
+rules:
+  - apiGroups: ["extensions"]
+    resources: ["deployments"]
+    verbs: ["get","list","patch","update"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: drone-deploy
+  namespace: web
+subjects:
+  - kind: ServiceAccount
+    name: drone-deploy
+    namespace: web
+roleRef:
+  kind: Role
+  name: drone-deploy
+  apiGroup: rbac.authorization.k8s.io
+```
+
+Once the service account is created, you can extract the `ca.cert` and `token`
+parameters as mentioned for the default service account above:
+
+```
+kubectl -n web get secrets
+# Substitute XXXXX below with the correct one from the above command
+kubectl -n web get secret/drone-deploy-token-XXXXX -o yaml | egrep 'ca.crt:|token:'
+```
+
 ## To do 
 
 Replace the current kubectl bash script with a go implementation.
