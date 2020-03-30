@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag yizhishang/drone-kubernetes:latest
+
+    - name: Login to DockerHub Registry && push image
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && docker push yizhishang/drone-kubernetes:latest
