@@ -39,6 +39,7 @@ kubectl config use-context default
 # kubectl version
 IFS=',' read -r -a DEPLOYMENTS <<< "${PLUGIN_DEPLOYMENT}"
 IFS=',' read -r -a CONTAINERS <<< "${PLUGIN_CONTAINER}"
+
 for DEPLOY in ${DEPLOYMENTS[@]}; do
   echo Deploying to $KUBERNETES_SERVER
   for CONTAINER in ${CONTAINERS[@]}; do
