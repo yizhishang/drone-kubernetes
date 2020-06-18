@@ -46,10 +46,10 @@ kubectl config set-context default --cluster=default --user=${PLUGIN_KUBERNETES_
 kubectl config use-context default
 
 # kubectl version
-IFS=',' read -r -a DEPLOYMENTS <<< "${PLUGIN_DEPLOYMENT}"
+IFS=',' read -r -a KINDS <<< "${PLUGIN_KIND}"
 IFS=',' read -r -a NAMES <<< "${PLUGIN_NAMES}"
 
-for DEPLOY in ${DEPLOYMENTS[@]}; do
+for KIND in ${KINDS[@]}; do
   echo Deploying to $KUBERNETES_SERVER
   for NAME in ${NAMES[@]}; do
     kubectl -n ${PLUGIN_NAMESPACE} set image ${PLUGIN_KINE}/${NAME} ${NAME}=${PLUGIN_REPO}:${PLUGIN_TAG} --record
