@@ -33,7 +33,7 @@ if [ -z ${PLUGIN_TAG} ]; then
   PLUGIN_TAG="latest"
 fi
 
-echo "${KUBERNETES_CLUSTER}"
+echo ${KUBERNETES_CLUSTER}
 
 kubectl config set-credentials ${KUBERNETES_CLUSTER} --token=${KUBERNETES_TOKEN}
 if [ ! -z ${KUBERNETES_CERT} ]; then
