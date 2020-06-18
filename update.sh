@@ -35,8 +35,6 @@ if [ -z ${PLUGIN_TAG} ]; then
   PLUGIN_TAG="latest"
 fi
 
-echo ${KUBERNETES_CLUSTER}
-
 kubectl config set-credentials ${KUBERNETES_CLUSTER} --token=${KUBERNETES_TOKEN}
 if [ ! -z ${KUBERNETES_CERT} ]; then
   echo ${KUBERNETES_CERT} | base64 -d > ca.crt
@@ -48,10 +46,6 @@ fi
 
 kubectl config set-context ${KUBERNETES_CLUSTER} --cluster=${KUBERNETES_CLUSTER} --user=${KUBERNETES_CLUSTER}
 kubectl config use-context ${KUBERNETES_CLUSTER}
-
-cat /root/.kube/config
-
-echo "configurate over!!!"
 
 # kubectl version
 IFS=',' read -r -a KINDS <<< "${PLUGIN_KIND}"
