@@ -15,6 +15,8 @@ fi
 
 if [ -z ${PLUGIN_KUBERNETES_CLUSTER} ]; then
   KUBERNETES_CLUSTER="default"
+  else
+  KUBERNETES_CLUSTER=${PLUGIN_KUBERNETES_CLUSTER}
 fi
 
 if [ ! -z ${PLUGIN_KUBERNETES_TOKEN} ]; then
@@ -34,8 +36,6 @@ if [ -z ${PLUGIN_TAG} ]; then
 fi
 
 echo ${KUBERNETES_CLUSTER}
-
-sleep 30000
 
 kubectl config set-credentials ${KUBERNETES_CLUSTER} --token=${KUBERNETES_TOKEN}
 if [ ! -z ${KUBERNETES_CERT} ]; then
