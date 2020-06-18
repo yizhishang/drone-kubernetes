@@ -13,8 +13,8 @@ if [ ! -n ${PLUGIN_NAME} ]; then
   exit 1
 fi
 
-if [ -z ${PLUGIN_KUBERNETES_USER} ]; then
-  PLUGIN_KUBERNETES_USER="default"
+if [ -z ${PLUGIN_KUBERNETES_CLUSTER} ]; then
+  PLUGIN_KUBERNETES_CLUSTER="default"
 fi
 
 if [ ! -z ${PLUGIN_KUBERNETES_TOKEN} ]; then
@@ -33,17 +33,17 @@ if [ -z ${PLUGIN_TAG} ]; then
   PLUGIN_TAG="latest"
 fi
 
-kubectl config set-credentials default --token=${KUBERNETES_TOKEN}
+kubectl config set-credentials ${PLUGIN_KUBERNETES_CLUSTER} --token=${KUBERNETES_TOKEN}
 if [ ! -z ${KUBERNETES_CERT} ]; then
   echo ${KUBERNETES_CERT} | base64 -d > ca.crt
-  kubectl config set-cluster default --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
+  kubectl config set-cluster ${PLUGIN_KUBERNETES_CLUSTER} --server=${KUBERNETES_SERVER} --certificate-authority=ca.crt
 else
   echo "WARNING: Using insecure connection to cluster"
-  kubectl config set-cluster default --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
+  kubectl config set-cluster ${PLUGIN_KUBERNETES_CLUSTER} --server=${KUBERNETES_SERVER} --insecure-skip-tls-verify=true
 fi
 
-kubectl config set-context default --cluster=default --user=${PLUGIN_KUBERNETES_USER}
-kubectl config use-context default
+kubectl config set-context ${PLUGIN_KUBERNETES_CLUSTER} --cluster=${PLUGIN_KUBERNETES_CLUSTER} --user=${PLUGIN_KUBERNETES_CLUSTER}
+kubectl config use-context ${PLUGIN_KUBERNETES_CLUSTER}
 
 # kubectl version
 IFS=',' read -r -a KINDS <<< "${PLUGIN_KIND}"
