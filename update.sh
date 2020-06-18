@@ -4,11 +4,11 @@ if [ -z ${PLUGIN_NAMESPACE} ]; then
   PLUGIN_NAMESPACE="default"
 fi
 
-if [ -z ${PLUGIN_KINE} ]; then
-  PLUGIN_KINE="deployment"
+if [ -z ${PLUGIN_KIND} ]; then
+  PLUGIN_KIND="deployment"
 fi
 
-if [ ! -n ${PLUGIN_NAMES} ]; then
+if [ ! -n ${PLUGIN_NAME} ]; then
   echo "container name must be configured!!!"
   exit 1
 fi
@@ -47,7 +47,7 @@ kubectl config use-context default
 
 # kubectl version
 IFS=',' read -r -a KINDS <<< "${PLUGIN_KIND}"
-IFS=',' read -r -a NAMES <<< "${PLUGIN_NAMES}"
+IFS=',' read -r -a NAMES <<< "${PLUGIN_NAME}"
 
 for KIND in ${KINDS[@]}; do
   echo Deploying to $KUBERNETES_SERVER
