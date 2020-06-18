@@ -52,6 +52,7 @@ IFS=',' read -r -a NAMES <<< "${PLUGIN_NAME}"
 for KIND in ${KINDS[@]}; do
   echo Deploying to $KUBERNETES_SERVER
   for NAME in ${NAMES[@]}; do
+    echo "kubectl command"
     kubectl -n ${PLUGIN_NAMESPACE} set image ${KIND}/${NAME} ${NAME}=${PLUGIN_REPO}:${PLUGIN_TAG} --record
   done
 done
