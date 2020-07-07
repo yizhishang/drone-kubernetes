@@ -56,5 +56,6 @@ for KIND in ${KINDS[@]}; do
   for NAME in ${NAMES[@]}; do
     echo "kubectl -n ${PLUGIN_NAMESPACE} set image ${KIND}/${NAME} ${NAME}=${PLUGIN_REPO}:${PLUGIN_TAG} --record"
     kubectl -n ${PLUGIN_NAMESPACE} set image ${KIND}/${NAME} ${NAME}=${PLUGIN_REPO}:${PLUGIN_TAG} --record
+    kubectl rollout restart ${KIND}/${NAME} -n ${PLUGIN_NAMESPACE}
   done
 done
