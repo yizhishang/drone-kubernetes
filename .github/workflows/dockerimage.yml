@@ -17,4 +17,4 @@ jobs:
       run: docker build . --file Dockerfile --tag yizhishang/drone-kubernetes:0707
 
     - name: Login to DockerHub Registry && push image
-      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && docker push yizhishang/drone-kubernetes:latest
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && docker push yizhishang/drone-kubernetes:0707
